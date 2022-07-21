@@ -1,0 +1,134 @@
+{% extends 'basic.html' %}
+{% block style %}
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    /* Add a gray background color with some padding */
+    body {
+        font-family: Arial;
+        padding: 20px;
+        background: #f1f1f1;
+    }
+
+    /* Header/Blog Title */
+    .header {
+        padding: 30px;
+        font-size: 40px;
+        text-align: center;
+        background: white;
+    }
+
+    /* Create two unequal columns that floats next to each other */
+    /* Left column */
+    .leftcolumn {
+        float: left;
+        width: 75%;
+    }
+
+    /* Right column */
+    .rightcolumn {
+        float: left;
+        width: 25%;
+        padding-left: 20px;
+    }
+
+    /* Fake image */
+    .fakeimg {
+        background-color: #aaa;
+        width: 100%;
+        padding: 20px;
+    }
+
+    /* Add a card effect for articles */
+    .card {
+        background-color: white;
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    /* Footer */
+    .footer {
+        padding: 20px;
+        text-align: center;
+        background: #ddd;
+        margin-top: 20px;
+    }
+
+    /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 800px) {
+
+        .leftcolumn,
+        .rightcolumn {
+            width: 100%;
+            padding: 0;
+        }
+    }
+</style>
+{% endblock %}
+{% block body %}
+{% load static %}
+<div class="row g-0 gap-4 my-3 align-items-center justify-content-center">
+    {% for i in blog_paginate %}
+    <div class="col-3">
+        <a href="{% url 'open_blog' i.new_slug %}" class="text-decoration-none text-dark">
+            <div class="card" style="height: 700px;overflow: hidden;">
+                <div class="card-header" style="height: 100px ;">
+                    <h2 class="text-capitalize">{{i.blog_title}}</h2>
+                </div>
+                <div class="card-body" style="height: 500px ;">
+                    <h5>{{i.blog_uploaded_on}}</h5>
+                    <img src='/media/{{i.blog_image}}' style="height: 450px; width: 100%;" alt="...">
+                </div>
+                <div class="card-footer" style="height: 100px ;">
+                    <h3>{{i.blog_auther}}</h3>
+                    <p>{{i.blog_content}}</p>
+                </div>
+            </div>
+        </a>
+
+    </div>
+    {% endfor %}
+</div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+
+
+        {% if blog_paginate.has_previous %}
+
+        <li class="page-item "><a class="page-link" href="?page=1">&laquo</a></li>
+        <li class="page-item"><a class="page-link"
+                href="?page={{blog_paginate.previous_page_number}}">{{blog_paginate.previous_page_number}}
+            </a></li>
+        {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#">&laquo</a></li>
+        </a></li>
+        {% endif %}
+        <li class="page-item"><a class="page-link" href="?page={{blog_paginate.number}}">{{blog_paginate.number}}
+            </a></li>
+        {% if blog_paginate.has_next %}
+        <li class="page-item"><a class="page-link"
+                href="?page={{blog_paginate.next_page_number}}">{{blog_paginate.next_page_number}}
+            </a></li>
+        <li class="page-item "><a class="page-link" href="?page={{blog_paginate.paginator.num_pages}}">&raquo</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#">
+                &raquo</a>
+        </li>
+        {% endif %}
+
+    </ul>
+</nav>
+{% endblock %}
+{% block script %}
+
+{% endblock %}

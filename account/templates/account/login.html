@@ -1,0 +1,61 @@
+{% extends 'basic.html' %}
+{% block body %}
+<section class="my-auto bg-image" style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
+<div class="py-5">
+    <div style="border-radius: 50px; width: 35%;" class="mx-auto bg-white p-5"> 
+       
+        <form action="{% url 'signin' %}" method="POST">
+            {% csrf_token %}
+            <div class="">
+                <div class="col-2 mx-auto" style="font-size: 60px;">LOGIN</div></div>
+            <div class="form-outline mb-4">
+                <input type="email" placeholder="Email" name="em" class="form-control" />
+                
+            </div>
+            
+            <div class="form-outline mb-4">
+                <input type="password" placeholder="Password" name="pwd" class="form-control" />
+            </div>
+            
+            <div class="row mb-4">
+                <div class="col d-flex justify-content-center">
+                    
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value=""  checked />
+                        <label class="form-check-label" > Remember me </label>
+                    </div>
+                </div>
+                
+                <div class="col">
+                    <a href="#!">Forgot password?</a>
+                </div>
+            </div>
+            
+            <button type="submit" class="w-100 btn btn-primary btn-block mb-4 mx-auto">Sign in</button>
+            
+            <div class="text-center">
+                <p>Not a member? <a href="{% url 'signup' %}">register here</a>
+
+        <p>or sign up with:</p>
+        <button type="button" class="btn btn-link btn-floating mx-1">
+            <i class="fab fa-facebook-f"></i>
+        </button>
+        
+        <button type="button" class="btn btn-link btn-floating mx-1">
+            <i class="fab fa-google"></i>
+        </button>
+        
+        <button type="button" class="btn btn-link btn-floating mx-1">
+            <i class="fab fa-twitter"></i>
+        </button>
+        
+        <button type="button" class="btn btn-link btn-floating mx-1">
+            <i class="fab fa-github"></i>
+        </button>
+    </div>
+</form>
+</div>
+
+</div>
+</section>
+{% endblock %}

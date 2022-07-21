@@ -1,0 +1,90 @@
+{% extends 'basic.html' %}
+{% block style %}
+<style>
+</style>
+{% endblock %}
+{% block body %}
+{% for i in blogs %}
+<div class="d-flex align-items-center justify-content-center my-3">
+    <div class="" style="width: 700px;">
+        <div class="text-center">
+            <h2 class="text-capitalize">{{i.blog_title}}</h2>
+            <h5>{{i.blog_uploaded_on}}</h5>
+            <img src='/media/{{i.blog_image}}' style="height: 200px; width: auto;" alt="...">
+
+            <h3>{{i.blog_auther}}</h3>
+            <p>{{i.blog_content}}</p>
+        </div>
+        {% if user.is_authenticated %}
+        <form action="{% url 'addcomment' i.new_slug %}" method="post">
+            {% csrf_token %}
+
+            <div class="form-outline mb-1">
+                <h1 class="badge bg-success" style="font-size: 1rem !important;">{{user.user_name}}</h1>
+            </div>
+
+            <div class="form-outline mb-4">
+                <input type="text" placeholder="COMMENT" name="com" class="form-control form-control-lg" />
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary text-white btn-block btn-lg gradient-custom-4 w-100">add <i
+                        class="fa-solid fa-comment"></i></button>
+            </div>
+
+        </form>
+        {% else %}
+        <div class="d-flex flex-column align-items-center justify-content-center">
+            <h3 class="text-capitalize">please login for comment</h3>
+            <a href="{% url 'signin' %}"><button class="btn btn-primary text-capitalize rounded">login here</button></a>
+        </div>
+        {% endif %}
+        <div class="border border-dark rounded my-2 p-2 ">
+            {% for j in comment_paginate %}
+            <h1 class="badge bg-success" style="font-size: 1rem !important;">{{j.user}}</h1>
+            <span class="d-flex mb-3">{{j.comment_added_on}}</span>
+
+            <p class="text-capitalize mx-5 my-0">{{j.blog_comment}}</p>
+
+            <br><br>
+
+            {% endfor %}
+        </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+
+
+                {% if comment_paginate.has_previous %}
+
+                <li class="page-item "><a class="page-link" href="?page=1">&laquo</a></li>
+                <li class="page-item"><a class="page-link"
+                        href="?page={{comment_paginate.previous_page_number}}">{{comment_paginate.previous_page_number}}
+                    </a></li>
+                {% else %}
+                <li class="page-item disabled"><a class="page-link" href="#">&laquo</a></li>
+                </a></li>
+                {% endif %}
+                <li class="page-item"><a class="page-link"
+                        href="?page={{comment_paginate.number}}">{{comment_paginate.number}}
+                    </a></li>
+                {% if comment_paginate.has_next %}
+                <li class="page-item"><a class="page-link"
+                        href="?page={{comment_paginate.next_page_number}}">{{comment_paginate.next_page_number}}
+                    </a></li>
+                <li class="page-item "><a class="page-link" href="?page={{comment_paginate.paginator.num_pages}}">
+                        &raquo</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled"><a class="page-link" href="#">
+                        &raquo</a>
+                </li>
+                {% endif %}
+
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endfor %}
+
+
+
+{% endblock %}
