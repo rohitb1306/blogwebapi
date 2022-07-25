@@ -1,9 +1,11 @@
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from blog.models import Blog
 from account.models import MyUser
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
+from .task import task_func
 
 
 # Create your views here.
@@ -38,51 +40,41 @@ def userapproval(request, uid):
     user_object.save()
     messages.success(request, "approved user")
     user_object = MyUser.objects.get(id=uid)
-    send_mail(
-        'user approval',
-        'your sign up request has been approved',
-        'bhattpooja471@gmail.com',
-        [user_object.user_email],
-        fail_silently=False,
-    )
+    task_func.delay(message='your sign up request has been approved',
+                    title='user approval', receiver=[user_object.user_email])
+
     return redirect("admin_custom")
 
 
-def blogapproval(request, bid):
+def blogapproval(request, slug):
 
-    blog_object = Blog.objects.get(new_slug=bid)
+    blog_object = Blog.objects.get(new_slug=slug)
     blog_object.blog_is_approved = True
     blog_object.blog_new_request = False
 
     blog_object.save()
     messages.success(request, "approved blog")
-    blog_object = Blog.objects.get(new_slug=bid)
-    send_mail(
-        'blog approval',
-        'your blog has been approved',
-        'bhattpooja471@gmail.com',
-        [blog_object.blog_auther.user_email],
-        fail_silently=False,
-    )
+    blog_object = Blog.objects.get(new_slug=slug)
+    task_func.delay(message='your blog has been approved',
+                    title='blog approval', receiver=[blog_object.blog_auther.user_email])
+
     return redirect("admin_custom")
 
 
-def blog_Delete_approval(request, bid):
+def blog_Delete_approval(request, slug):
 
-    blog_object = Blog.objects.get(new_slug=bid)
+    blog_object = Blog.objects.get(new_slug=slug)
     blog_object.delete()
 
     messages.success(request, "blog removed")
-    blog_object = Blog.objects.get(new_slug=bid)
-    send_mail(
-        'blog deletion approval',
-        'your blog has been deleted',
-        'bhattpooja471@gmail.com',
-        [blog_object.blog_auther.user_email],
-        fail_silently=False,
-    )
+    blog_object = Blog.objects.get(new_slug=slug)
+    task_func.delay(message='your blog has been deleted',
+                    title='blog deletion approval', receiver=[blog_object.blog_auther.user_email])
+
     return redirect("admin_custom")
 
 
 def about(request):
-    return render(request, "home/about.html")
+    return render(request, 'home/about.html')
+
+

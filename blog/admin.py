@@ -19,7 +19,8 @@ class BlogAdmin(admin.ModelAdmin):
                     "blog_image",
                     "blog_content",
                     "blog_title",
-                    "blog_rating",
+                    "blog_description",
+                    "blog_keywords",
                 )
             },
         ),

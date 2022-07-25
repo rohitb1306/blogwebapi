@@ -79,7 +79,7 @@
 <div class="row g-0 gap-4 my-3 align-items-center justify-content-center">
     {% for i in blog_paginate %}
     <div class="col-3">
-        <a href="{% url 'open_blog' i.new_slug %}" class="text-decoration-none text-dark">
+        <a href="{% url 'open-blog' i.new_slug %}" class="text-decoration-none text-dark">
             <div class="card" style="height: 700px;overflow: hidden;">
                 <div class="card-header" style="height: 100px ;">
                     <h2 class="text-capitalize">{{i.blog_title}}</h2>
@@ -88,9 +88,9 @@
                     <h5>{{i.blog_uploaded_on}}</h5>
                     <img src='/media/{{i.blog_image}}' style="height: 450px; width: 100%;" alt="...">
                 </div>
-                <div class="card-footer" style="height: 100px ;">
+                <div class="card-footer" style="height: 120px ;">
                     <h3>{{i.blog_auther}}</h3>
-                    <p>{{i.blog_content}}</p>
+                    <div class="article-boy">{{i.blog_content|safe|striptags|truncatechars:120}}</div>
                 </div>
             </div>
         </a>

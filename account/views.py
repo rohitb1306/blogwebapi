@@ -1,8 +1,10 @@
+from django.dispatch import receiver
 from django.shortcuts import redirect, render
 from .models import MyUser
 from django.contrib.auth.models import auth
 from django.contrib import messages
 from django.core.mail import send_mail
+from .task import task_func
 
 # Create your views here.
 
@@ -25,7 +27,7 @@ def signup(request):
                 request,
                 "user with same email or username already exists please login",
             )
-            return redirect("signin")
+            return redirect("sign-in")
         else:
             if password == c_password and user_type == 'Auther':
                 user_object = MyUser.objects.create_user(
@@ -42,14 +44,10 @@ def signup(request):
                     f"user with username:{user_name} registered please login",
                 )
                 user_object = MyUser.objects.filter(is_staff=True)
-                send_mail(
-                    'New User request',
-                    'An auther wants to sign up',
-                    'bhattpooja471@gmail.com',
-                    [user.user_email for user in user_object],
-                    fail_silently=False,
-                )
-                return redirect("signin")
+                task_func.delay(message='An auther wants to sign up',
+                                title='New User request', receiver=[user.user_email for user in user_object])
+
+                return redirect("sign-in")
 
             elif password == c_password and user_type == 'Reader':
                 user_object = MyUser.objects.create_user(
@@ -66,14 +64,10 @@ def signup(request):
                     f"user with username:{user_name} registered please login",
                 )
                 user_object = MyUser.objects.filter(is_staff=True)
-                send_mail(
-                    'New User request',
-                    'A reader wants to sign up',
-                    'bhattpooja471@gmail.com',
-                    [user.user_email for user in user_object],
-                    fail_silently=False,
-                )
-                return redirect("signin")
+                task_func.delay(message='An reader wants to sign up',
+                                title='New User request', receiver=[user.user_email for user in user_object])
+
+                return redirect("sign-in")
 
             elif password == c_password and user_type == 'Admin':
                 user_object = MyUser.objects.create_user(
@@ -91,14 +85,10 @@ def signup(request):
                     f"user with username:{user_name} registered please login",
                 )
                 user_object = MyUser.objects.filter(is_staff=True)
-                send_mail(
-                    'New User request',
-                    'An admin wants to sign up',
-                    'bhattpooja471@gmail.com',
-                    [user.user_email for user in user_object],
-                    fail_silently=False,
-                )
-                return redirect("signin")
+                task_func.delay(message='An admin wants to sign up',
+                                title='New User request', receiver=[user.user_email for user in user_object])
+
+                return redirect("sign-in")
 
             else:
                 messages.warning(request, "password mismatch error")
@@ -106,7 +96,7 @@ def signup(request):
     return render(request, "account/register.html")
 
 
-def sign_in(request):
+def signin(request):
     if request.method == "POST":
         user_email = request.POST["em"]
         password = request.POST["pwd"]
@@ -121,24 +111,19 @@ def sign_in(request):
                         user_email=user_email, password=password)
                 )
                 messages.success(request, "user loged in sucessfully")
-                send_mail(
-                    'New sign',
-                    'You just signed in blogapi.in',
-                    'bhattpooja471@gmail.com',
-                    [user_email],
-                    fail_silently=False,
-                )
+                task_func.delay(message='You just signed in blogapi.in',
+                                title='new signin', receiver=[user_email])
 
                 return redirect("index")
             else:
                 messages.warning(request, "password mismatch")
-                return redirect("signin")
+                return redirect("sign-in")
         else:
             messages.warning(
                 request,
-                f"user with email:{user_email} doess not exists please register",
+                f"user with email:{user_email} doess not exists",
             )
-            return redirect("signup")
+            return redirect("sign-in")
     return render(request, "account/login.html")
 
 
@@ -146,4 +131,4 @@ def sign_out(request):
     auth.logout(request)
     messages.success(request, "sucessfully loged out")
 
-    return redirect("signin")
+    return redirect("sign-in")

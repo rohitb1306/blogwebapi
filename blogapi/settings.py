@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     "home",
     "blog",
     "account",
+    "ckeditor",
+    "ckeditor_uploader",
+    "django_celery_results",
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -135,7 +139,19 @@ AUTH_USER_MODEL = "account.myUser"
 # mail Settings
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = '587'
-EMAIL_HOST_USER = 'bhattpooja471@gmail.com'
-EMAIL_HOST_PASSWORD = 'vclegnjbwlkiwbwa'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'bhatttest852@gmail.com'
+EMAIL_HOST_PASSWORD = 'rdbjdjjpubatyget'
 EMAIL_USE_TLS = True
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+ACCEPT_CONTENT = ['application/json']
+RESULT_SERIALIZER = 'json'
+TASK_SERIALIZER = 'json'
+TIMEZONE = 'Asia/Kolkata'
+ACCEPT_CONTENT = ["json", "application/text"]
+RESULT_BACKEND = "django-db"
+
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"

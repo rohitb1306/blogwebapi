@@ -79,8 +79,8 @@
     <div class="mask d-flex align-items-center h-100 gradient-custom-3">
         <div class="container h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                    <div class="card" style="border-radius: 15px;">
+                <div class="">
+                    <div style="border-radius: 15px;">
                         <div class="card-body p-5">
                             <h2 class="text-uppercase text-center mb-5">Write Blog</h2>
 
@@ -88,21 +88,31 @@
                                 {% csrf_token %}
                                 <div class="form-outline mb-4">
                                     <input type="text" placeholder="auther" value="{{user.user_name}}" name="au"
-                                        class="form-control form-control-lg" />
+                                        class="form-control form-control-lg" required />
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <input type="text" placeholder="Title" name="tt"
-                                        class="form-control form-control-lg" />
+                                        class="form-control form-control-lg" required />
                                 </div>
 
                                 <div class="form-outline mb-4">
-                                    <textarea style="height:150px;" placeholder="content" name="co"
-                                        class="form-control form-control-lg"></textarea>
+                                    <input type="text" placeholder="keywords" name="key"
+                                        class="form-control form-control-lg" required />
                                 </div>
 
                                 <div class="form-outline mb-4">
-                                    <input type="file" name="im">
+                                    <input type="text" placeholder="Description" name="descript"
+                                        class="form-control form-control-lg" required>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <textarea style="height:150px;" placeholder="content" name="co" id="co"
+                                        required></textarea>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <input type="file" name="im" required>
                                 </div>
 
 
@@ -126,7 +136,7 @@
 <div class="row g-0 gap-4 my-3 align-items-center justify-content-center">
     {% for i in blog_paginate %}
     <div class="col-3">
-        <a href="{% url 'open_blog' i.new_slug %}" class="text-decoration-none text-dark">
+        <a href="{% url 'open-blog' i.new_slug %}" class="text-decoration-none text-dark">
             <div class="card" style="height: 500px;overflow: hidden;">
                 <div class="card-header">
                     <h2 class="text-capitalize">{{i.blog_title}}</h2>
@@ -181,5 +191,10 @@
 
     </ul>
 </nav>
-
+<script src="//cdn.ckeditor.com/4.19.1/standard/ckeditor.js"></script>
+{% endblock %}
+{% block script %}
+<script>
+    CKEDITOR.replace('co');
+</script>
 {% endblock %}

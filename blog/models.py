@@ -1,16 +1,20 @@
 from enum import unique
+from operator import truediv
 from django.db import models
 from account.models import MyUser
 from autoslug import AutoSlugField
+from ckeditor.fields import RichTextField
 # Create your models here.
 
 
 class Blog(models.Model):
     blog_auther = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    blog_image = models.ImageField(upload_to="blog/images", default="")
-    blog_content = models.TextField()
+    blog_image = models.ImageField(
+        upload_to="blog/images", default="", null=True)
+    blog_content = RichTextField(null=True)
     blog_title = models.CharField(max_length=150, unique=True)
-    blog_rating = models.IntegerField(default=0)
+    blog_keywords = models.CharField(max_length=150, null=True)
+    blog_description = models.CharField(max_length=150, null=True)
     blog_uploaded_on = models.DateTimeField(auto_now=True)
     blog_is_approved = models.BooleanField(default=False)
     blog_new_request = models.BooleanField(default=True)
