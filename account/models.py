@@ -1,3 +1,4 @@
+from autoslug import AutoSlugField
 from django.db import models  # noqa
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -47,12 +48,16 @@ class customAccountManager(BaseUserManager):
 
 class MyUser(AbstractBaseUser, PermissionsMixin):
     user_email = models.EmailField(unique=True)
+    user_contact = models.BigIntegerField(null=True, default=00000)
     first_name = models.CharField(max_length=30, default="")
     last_name = models.CharField(max_length=30, default="")
     user_name = models.CharField(max_length=30, unique=True)
     is_auther = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
+
+    new_slug = AutoSlugField(populate_from='user_name',
+                             null=True, default=None)
 
     user_image = models.ImageField(
         upload_to="media/account/images", default="")

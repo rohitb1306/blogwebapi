@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from blog.models import Blog
+from blog.models import Blog, Search
 from account.models import MyUser
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -78,3 +78,35 @@ def about(request):
     return render(request, 'home/about.html')
 
 
+def search(request):
+    if request.method == 'POST':
+        search_content = request.POST['search']
+    search_obj = Search.objects.filter(search_content=search_content)
+    if search_obj.exists():
+        return redirect('search1', search_content)
+    else:
+        blog = Blog.objects.filter(blog_is_approved=True)
+        for i in blog:
+            if search_content in i.blog_title:
+                search_object = Search(
+                    object_blog=i, search_content=search_content)
+                search_object.save()
+        return redirect('search1', search_content)
+
+
+def search1(request, search):
+    search_obj = Search.objects.filter(search_content=search)
+    p = Paginator(search_obj, 5)
+    page = request.GET.get('page')
+    blog_paginate = p.get_page(page)
+    if search_obj:
+        return render(request, 'home/search.html', {"blog_paginate": blog_paginate})
+    else:
+        messages.warning(request, 'search result not found')
+        return redirect('index')
+
+def editUser(request,slug):
+    pass
+
+def editBlog(request,slug):
+    pass

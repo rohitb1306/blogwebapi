@@ -39,6 +39,11 @@ def signup(request):
                     is_auther=True,
                 )
                 user_object.save()
+                if len(request.FILES) != 0:
+                    image = request.FILES["im"]
+                    user_object = MyUser.objects.get(user_email=user_email)
+                    user_object.user_image = image
+                    user_object.save()
                 messages.success(
                     request,
                     f"user with username:{user_name} registered please login",
@@ -59,6 +64,11 @@ def signup(request):
                     is_auther=False,
                 )
                 user_object.save()
+                if len(request.FILES) != 0:
+                    image = request.FILES["im"]
+                    user_object = MyUser.objects.get(user_email=user_email)
+                    user_object.user_image = image
+                    user_object.save()
                 messages.success(
                     request,
                     f"user with username:{user_name} registered please login",
@@ -80,6 +90,11 @@ def signup(request):
                     is_superuser=True
                 )
                 user_object.save()
+                if len(request.FILES) != 0:
+                    image = request.FILES["im"]
+                    user_object = MyUser.objects.get(user_email=user_email)
+                    user_object.user_image = image
+                    user_object.save()
                 messages.success(
                     request,
                     f"user with username:{user_name} registered please login",
@@ -132,3 +147,72 @@ def sign_out(request):
     messages.success(request, "sucessfully loged out")
 
     return redirect("sign-in")
+
+
+def profile(request):
+    return render(request, 'account/profile.html')
+
+
+def update_profile(request, slug):
+    if request.method == "POST":
+        name = request.POST['nam']
+        contact = request.POST['con']
+        Auther = request.POST['auther']
+        email = request.POST['em']
+        user_object = MyUser.objects.get(new_slug=slug)
+        if email:
+            if MyUser.objects.filter(user_email=email).exists():
+                messages.warning(request, "username exists")
+                return redirect('update-profile,slug')
+            else:
+                if name:
+                    user_object.first_name = name.split(" ")[0]
+                    user_object.last_name = name.split(" ")[1]
+                if contact:
+                    user_object.user_contact = contact
+                if user_object.is_auther:
+                    if Auther == 'Reader':
+                        user_object.is_auther = False
+                        user_object.is_active = False
+                else:
+                    if Auther == 'Auther':
+                        user_object.is_auther = True
+                        user_object.is_active = False
+                if len(request.FILES) != 0:
+                    image = request.FILES["im"]
+                    user_object.user_image = image
+                user_object.user_email = email
+                user_object.save()
+                messages.success(request, 'sent for admin approval')
+                user_object1 = MyUser.objects.filter(is_staff=True)
+                task_func.delay(message="A user wants to update there profile",
+                                title="profile updation Request", receiver=[user.user_email for user in user_object1])
+                return redirect('index')
+        else:
+
+            if name:
+                user_object.first_name = name.split(" ")[0]
+                user_object.last_name = name.split(" ")[1]
+            if contact:
+                user_object.user_contact = contact
+            if user_object.is_auther:
+                if Auther == 'Reader':
+                    user_object.is_auther = False
+                    user_object.is_active = False
+            else:
+                if Auther == 'Auther':
+                    user_object.is_auther = True
+                    user_object.is_active = False
+            if len(request.FILES) != 0:
+                image = request.FILES["im"]
+                user_object.user_image = image
+            user_object.save()
+            messages.success(
+                request, 'profile updated sent for admin approval')
+            user_object1 = MyUser.objects.filter(is_staff=True)
+            task_func.delay(message="A user wants to update there profile",
+                            title="Profile updation request", receiver=[user.user_email for user in user_object1])
+            return redirect('index')
+
+    user_object2 = MyUser.objects.get(new_slug=slug)
+    return render(request, 'account/update-profile.html', {'user_object': user_object2})

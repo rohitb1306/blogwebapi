@@ -21,7 +21,7 @@
             <img src='/media/{{i.blog_image}}' style="height: 200px; width: auto;" alt="...">
 
             <h3>{{i.blog_auther}}</h3>
-            {{i.blog_content|safe|striptags }}
+            <div style="text-align: left;">{{i.blog_content|safe}}</div>
         </div>
         {% if user.is_authenticated %}
         <form action="{% url 'addcomment' i.new_slug %}" method="post">

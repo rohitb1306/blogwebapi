@@ -3,104 +3,123 @@
 {% block body %}
 {% load static %}
 <div class="row g-0">
-
-    <div class="col-4">
-
-        <div class="mx-5">
-            <table class="table table-stripped border border-box">
-
-                <tr>
-                    <th colspan="4" style="text-align:center;">NEW USERS
-                    </th>
-                </tr>
-                <tr class="mx-5">
-                    <th>USERNAME</th>
-                    <th>EMAIL</th>
-                    <th>APPROVED</td>
-                </tr>
-                {% for i in user_object %}
-                <tr class="mx-5">
-                    <td>{{i.user_name}}</td>
-
-                    <td>{{i.user_email}}</td>
-                    <!-- <img src='/media/{{i.image}}' height='500px' class="w-500 " alt="..."> -->
-
-
-                    <td>
-                        <a href="{% url 'userapproval' i.id %}"><button type="submit"
-                                class="bg-primary w-100 text-white">click here to approve</button></a>
-                    </td>
-
-                </tr>
-
-                {% endfor %}
-            </table>
+    <div class="col-1 border d-flex flex-column gap-2 ">
+        <p class="text-center">list of tables</p>
+        <div>
+            <a href="/admin/account/myuser/" style="text-decoration:none;" class="my-1">User</a>
+        </div>
+        <div>
+            <a href="/admin/blog/blog/" style="text-decoration:none;" class="my-1">Blogs</a>
+        </div>
+        <div>
+            <a href="/admin/blog/comment/" style="text-decoration:none;" class="my-1">Comments</a>
         </div>
 
+
+        <button class="btn btn-primary tex"><a href="admin/" style="text-decoration: none;" class="text-light">open
+                admin panal</a>
+        </button>
     </div>
-    <div class="col-4">
-        <div class="mx-5">
-            <table class="table table-stripped border border-box">
-                <tr>
-                    <th colspan="4" style="text-align:center ;">NEW BLOGS /UPDATED BLOGS</th>
-                </tr>
-                <tr class="mx-5">
-                    <th>TITLE</th>
-                    <th>DATE_UPLODED</th>
-                    <th>AUTHER</th>
-                    <th>APPROVED</th>
-                </tr>
-                {% for i in blogs_object %}
-                <tr class="mx-5">
-                    <td>{{i.blog_title}}</td>
+    <div class="col-10">
+        <div class="row g-0">
+            <div class="col-4">
 
-                    <td>{{i.blog_uploaded_on}}</td>
-                    <td>{{i.blog_auther}}</td>
+                <div class="mx-5">
+                    <table class="table table-stripped border border-box">
 
-                    <td>
-                        <a href="{% url 'blog-W-U-approval' i.new_slug %}"><button type="submit"
-                                class="bg-primary w-100 text-white">click here to approve</button></a>
-                    </td>
+                        <tr>
+                            <th colspan="4" style="text-align:center;">NEW USERS
+                            </th>
+                        </tr>
+                        <tr class="mx-5">
+                            <th>USERNAME</th>
+                            <th>EMAIL</th>
+                            <th>APPROVED</td>
+                        </tr>
+                        {% for i in user_object %}
+                        <tr class="mx-5">
 
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="mx-5">
-            <table class="table table-stripped border border-box">
-                <tr>
-                    <th colspan="5" style="text-align:center ;">NEW BLOGS /UPDATED BLOGS</th>
-                </tr>
-                <tr class="mx-5">
-                    <th>TITLE</th>
-                    <th>DATE_UPLODED</th>
-                    <th>AUTHER</th>
-                    <th>DELETEBLOG</th>
-                    <th>APPROVE_REQUEST</th>
-                </tr>
-                {% for i in blogsdelete_object %}
-                <tr class="mx-5">
-                    <td>{{i.blog_title}}</td>
+                            <td>{{i.user_name}}</td>
 
-                    <td>{{i.blog_uploaded_on}}</td>
-                    <td>{{i.blog_auther}}</td>
-                    <!-- <img src='/media/{{i.image}}' height='500px' class="w-500 " alt="..."> -->
-                    <td>{{i.blog_del_request}}</td>
+                            <td>{{i.user_email}}
+                            </td>
+                            <!-- <img src='/media/{{i.image}}' height='500px' class="w-500 " alt="..."> -->
 
-                    <td>
-                        <a href="{% url 'blog-D-approval' i.new_slug %}"><button type="submit"
-                                class="bg-primary w-100 text-white">click here to approve deletion request</button></a>
-                    </td>
 
-                </tr>
-                {% endfor %}
-            </table>
+                            <td>
+                                <a href="{% url 'userapproval' i.id %}"><button type="submit"
+                                        class="bg-primary w-100 text-white">click here to approve</button></a>
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+                    </table>
+                </div>
+
+            </div>
+            <div class="col-4">
+                <div class="mx-5">
+                    <table class="table table-stripped border border-box">
+                        <tr>
+                            <th colspan="4" style="text-align:center ;">NEW BLOGS /UPDATED BLOGS</th>
+                        </tr>
+                        <tr class="mx-5">
+                            <th>TITLE</th>
+                            <th>DATE_UPLODED</th>
+                            <th>AUTHER</th>
+                            <th>APPROVED</th>
+                        </tr>
+                        {% for i in blogs_object %}
+                        <tr class="mx-5">
+                            <td> {{i.blog_title}}
+                            </td>
+
+                            <td> {{i.blog_uploaded_on}}</td>
+                            <td>{{i.blog_auther}}</td>
+
+                            <td>
+                                <a href="{% url 'blog-W-U-approval' i.new_slug %}"><button type="submit"
+                                        class="bg-primary w-100 text-white">click here to approve</button></a>
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mx-5">
+                    <table class="table table-stripped border border-box">
+                        <tr>
+                            <th colspan="5" style="text-align:center ;">Delete Blogs</th>
+                        </tr>
+                        <tr class="mx-5">
+                            <th>TITLE</th>
+                            <th>DATE_UPLODED</th>
+                            <th>AUTHER</th>
+                            <th>APPROVE_REQUEST</th>
+                        </tr>
+                        {% for i in blogsdelete_object %}
+                        <tr class="mx-5">
+                            <td>{{i.blog_title}}</td>
+
+                            <td>{{i.blog_uploaded_on}}</td>
+                            <td>{{i.blog_auther}}</td>
+
+
+                            <td>
+                                <a href="{% url 'blog-D-approval' i.new_slug %}"><button type="submit"
+                                        class="bg-primary w-100 text-white">click here to approve deletion
+                                        request</button></a>
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<a href="admin/">
-    <p style="text-align: center;">open admin panal</p>
-</a>
 {% endblock %}

@@ -1,4 +1,4 @@
-from enum import unique
+
 from operator import truediv
 from django.db import models
 from account.models import MyUser
@@ -33,8 +33,10 @@ class Comment(models.Model):
     blog_comment = models.TextField()
     comment_added_on = models.DateTimeField(auto_now=True, null=True)
 
-    # new_slug = AutoSlugField(populate_from='blog_key',
-    #                          unique=True, null=True, default=None)
-
     def __str__(self):
         return self.user.user_name
+
+
+class Search(models.Model):
+    object_blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    search_content = models.CharField(max_length=30, null=True)

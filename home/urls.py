@@ -16,5 +16,6 @@ urlpatterns = [
         name="blog-D-approval",
     ),
     path("about", views.about, name="about"),
-
+    path("search", views.search, name="search"),
+    path("search1/<search>", views.search1, name="search1"),
 ]

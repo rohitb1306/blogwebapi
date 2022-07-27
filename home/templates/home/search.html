@@ -1,0 +1,58 @@
+{% extends 'basic.html' %}
+{% block body %}
+<div class="row g-0 gap-4 my-3 align-items-center justify-content-center">
+    {% for i in blog_paginate %}
+    <div class="col-3">
+        <a href="{% url 'open-blog' i.object_blog.new_slug %}" class="text-decoration-none text-dark">
+            <div class="card" style="height: 700px;overflow: hidden;">
+                <div class="card-header" style="height: 100px ;">
+                    <h2 class="text-capitalize">{{i.object_blog.blog_title}}</h2>
+                </div>
+                <div class="card-body" style="height: 500px ;">
+                    <h5>{{i.object_blog.blog_uploaded_on}}</h5>
+                    <img src='/media/{{i.object_blog.blog_image}}' style="height: 450px; width: 100%;" alt="...">
+                </div>
+                <div class="card-footer" style="height: 120px ;">
+                    <h3>{{i.object_blog.blog_auther}}</h3>
+                    <div class="article-boy">{{i.object_blog.blog_content|safe|striptags|truncatechars:100}}</div>
+                </div>
+            </div>
+        </a>
+
+    </div>
+
+    {% endfor %}
+
+
+</div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+
+
+        {% if blog_paginate.has_previous %}
+
+        <li class="page-item "><a class="page-link" href="?page=1">&laquo</a></li>
+        <li class="page-item"><a class="page-link"
+                href="?page={{blog_paginate.previous_page_number}}">{{blog_paginate.previous_page_number}}
+            </a></li>
+        {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#">&laquo</a></li>
+        </a></li>
+        {% endif %}
+        <li class="page-item"><a class="page-link" href="?page={{blog_paginate.number}}">{{blog_paginate.number}}
+            </a></li>
+        {% if blog_paginate.has_next %}
+        <li class="page-item"><a class="page-link"
+                href="?page={{blog_paginate.next_page_number}}">{{blog_paginate.next_page_number}}
+            </a></li>
+        <li class="page-item "><a class="page-link" href="?page={{blog_paginate.paginator.num_pages}}">&raquo</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#">
+                &raquo</a>
+        </li>
+        {% endif %}
+
+    </ul>
+</nav>
+{% endblock %}
