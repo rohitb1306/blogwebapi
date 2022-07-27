@@ -105,8 +105,3 @@ def search1(request, search):
         messages.warning(request, 'search result not found')
         return redirect('index')
 
-def editUser(request,slug):
-    pass
-
-def editBlog(request,slug):
-    pass
