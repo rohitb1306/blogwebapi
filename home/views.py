@@ -20,8 +20,7 @@ from .task import task_func
 
 # Create your views here.
 def index(request):
-    p = Paginator(Blog.objects.filter(
-        blog_is_approved=True).order_by('-blog_uploaded_on'), 5)
+    p = Paginator(Blog.objects.isapproved(), 5)
     page = request.GET.get('page')
     blog_paginate = p.get_page(page)
 
@@ -31,12 +30,9 @@ def index(request):
 
 
 def admin(request):
-    blog_object = Blog.objects.filter(
-        blog_new_request=True).order_by('-blog_uploaded_on')
-    user_object = MyUser.objects.filter(
-        is_active=False).order_by('-sign_up_date')
-    blogsdelete_object = Blog.objects.filter(
-        blog_del_request=True).order_by('-blog_uploaded_on')
+    blog_object = Blog.objects.newrequest()
+    user_object = MyUser.objects.isnotactive()
+    blogsdelete_object = Blog.objects.deleterequest()
     return render(
         request,
         "home/admin.html",
@@ -76,12 +72,11 @@ def blogapproval(request, slug):
 def blog_Delete_approval(request, slug):
 
     blog_object = Blog.objects.get(new_slug=slug)
+    task_func.delay(message='your blog has been deleted',
+                    title='blog deletion approved', receiver=[blog_object.blog_auther.user_email])
     blog_object.delete()
 
     messages.success(request, "blog removed")
-    blog_object = Blog.objects.get(new_slug=slug)
-    task_func.delay(message='your blog has been deleted',
-                    title='blog deletion approval', receiver=[blog_object.blog_auther.user_email])
 
     return redirect("admin_custom")
 
@@ -97,7 +92,7 @@ def search(request):
     if search_obj.exists():
         return redirect('search1', search_content)
     else:
-        blog = Blog.objects.filter(blog_is_approved=True)
+        blog = Blog.objects.isapproved()
         for i in blog:
             if search_content in i.blog_title:
                 search_object = Search(
@@ -124,7 +119,7 @@ def blog_csv(request):
 
     writer = csv.writer(response)
 
-    blog_object = Blog.objects.filter(blog_is_approved=True)
+    blog_object = Blog.objects.isapproved()
 
     writer.writerow(['Blog Title', 'Blog auther',
                     'Blog image', 'Blog content', 'Uploaded on'])
@@ -148,14 +143,15 @@ def blog_pdf(request):
     text_object.setFont("Helvetica", 14)
     blog_list = []
 
-    blog_object = Blog.objects.filter(blog_is_approved=True)
+    blog_object = Blog.objects.isapproved()
     for blog in blog_object:
         blog_list.append(str(f'Title : {blog.blog_title}'))
         blog_list.append(str(f'Auther : {blog.blog_auther.user_name}'))
         blog_list.append(
             str(f'Date Uploaded : {blog.blog_uploaded_on.date()}'))
         blog_list.append("  ")
-        blog_list.append(str(f'Image : {blog.blog_image.url}'))
+        blog_list.append(
+            str(f'Image : http://127.0.0.1:8000{blog.blog_image.url}'))
 
         blog_list.append("  ")
         blog_list.append(str(f'Content : {blog.blog_content}'))

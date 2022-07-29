@@ -81,13 +81,15 @@
               aria-expanded="false">
               Services
             </a>
+            {% if user.is_staff %}
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item text-capitalize" href="{% url 'blog-csv' %}">download blog as csv</a></li>
-              <li><a class="dropdown-item text-capitalize" href="{% url 'blog-pdf' %}">download blog as pdf</a></li>
+              <li><a class="dropdown-item text-capitalize" href="{% url 'blog-csv' %}">download blogs as csv</a></li>
+              <li><a class="dropdown-item text-capitalize" href="{% url 'blog-pdf' %}">download blogs as pdf</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
             </ul>
+            {% endif %}
           </li>
         </ul>
         <form class="d-flex" method="post" action="{% url 'search' %}">

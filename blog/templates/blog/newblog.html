@@ -137,15 +137,15 @@
     {% for i in blog_paginate %}
     <div class="col-3">
         <a href="{% url 'open-blog' i.new_slug %}" class="text-decoration-none text-dark">
-            <div class="card" style="height: 500px;overflow: hidden;">
-                <div class="card-header">
+            <div class="card" style="overflow: hidden;">
+                <div class="card-header" style="height: 100px;">
                     <h2 class="text-capitalize">{{i.blog_title}}</h2>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="height: 500px;">
                     <h5>{{i.blog_uploaded_on}}</h5>
-                    <img src='/media/{{i.blog_image}}' style="height: 270px; width: 100%;" alt="...">
+                    <img src='/media/{{i.blog_image}}' style="height: 400px; width: 100%;" alt="...">
                 </div>
-                <div class="card-footer">
+                <div class="card-footer" style="height: 100px;">
                     <h3>{{i.blog_auther}}</h3>
                     <p>{{i.blog_content}}</p>
                 </div>

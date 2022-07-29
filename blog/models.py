@@ -1,10 +1,19 @@
-
-from operator import truediv
 from django.db import models
 from account.models import MyUser
 from autoslug import AutoSlugField
 from ckeditor.fields import RichTextField
 # Create your models here.
+
+
+class Blogmanager(models.Manager):
+    def isapproved(self):
+        return self.get_queryset().filter(blog_is_approved=True).order_by('-blog_uploaded_on')
+
+    def newrequest(self):
+        return self.get_queryset().filter(blog_new_request=True).order_by('blog_uploaded_on')
+
+    def deleterequest(self):
+        return self.get_queryset().filter(blog_del_request=True)
 
 
 class Blog(models.Model):
@@ -22,6 +31,8 @@ class Blog(models.Model):
 
     new_slug = AutoSlugField(populate_from='blog_title',
                              unique=True, null=True, default=None)
+
+    objects = Blogmanager()
 
     def __str__(self):
         return self.blog_title

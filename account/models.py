@@ -45,6 +45,14 @@ class customAccountManager(BaseUserManager):
             user_email, user_name, first_name, password, **other_fields
         )
 
+    def isactive(self):
+        return self.get_queryset().filter(is_active=True).order_by('-sign_up_date')
+    def isnotactive(self):
+        return self.get_queryset().filter(is_active=False).order_by('-sign_up_date')
+
+    def isstaff(self):
+        return self.get_queryset().filter(is_staff=True)
+
 
 class MyUser(AbstractBaseUser, PermissionsMixin):
     user_email = models.EmailField(unique=True)

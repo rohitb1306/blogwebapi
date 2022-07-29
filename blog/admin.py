@@ -1,5 +1,5 @@
 from django.contrib import admin  # noqa
-from .models import Blog, Comment
+from .models import Blog, Comment, Search
 
 
 class BlogAdmin(admin.ModelAdmin):
@@ -35,3 +35,4 @@ class BlogAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(Comment)
+admin.site.register(Search)

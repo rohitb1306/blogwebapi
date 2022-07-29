@@ -10,8 +10,8 @@ from .tasks import task_func
 
 
 def blogupload(request):
-    p = Paginator(Blog.objects.filter(
-        blog_is_approved=True, blog_auther=request.user.id).order_by('-blog_uploaded_on'), 5)
+    p = Paginator(Blog.objects.isapproved().filter(
+        blog_auther=request.user.id), 5)
     page = request.GET.get('page')
     blog_paginate = p.get_page(page)
     if request.method == "POST":
@@ -39,7 +39,7 @@ def blogupload(request):
 
                 messages.success(
                     request, "blog added waiting for admin approval")
-                user_object = MyUser.objects.filter(is_staff=True)
+                user_object = MyUser.objects.isstaff()
                 task_func.delay(message="An auther wants to add a blog",
                                 title="Blog Addition Request", receiver=[user.user_email for user in user_object])
 
@@ -76,7 +76,7 @@ def blogupdate1(request, slug):
             blog_object.save()
             messages.success(
                 request, "blog updated waiting for admin approval")
-            user_object = MyUser.objects.filter(is_staff=True)
+            user_object = MyUser.objects.isstaff()
             task_func.delay(message="An auther wants to update their blog",
                             title="Blog Updation Request", receiver=[user.user_email for user in user_object])
 
@@ -88,7 +88,7 @@ def blogdelete(request, slug):
     blog_object.blog_del_request = True
     blog_object.save()
     messages.success(request, "send for admin approval to delete the blog")
-    user_object = MyUser.objects.filter(is_staff=True)
+    user_object = MyUser.objects.isstaff()
 
     task_func.delay(message="An auther wants to delete their blog",
                     title="Blog Deletion Request", receiver=[user.user_email for user in user_object])

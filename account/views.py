@@ -48,7 +48,7 @@ def signup(request):
                     request,
                     f"user with username:{user_name} registered please login",
                 )
-                user_object = MyUser.objects.filter(is_staff=True)
+                user_object = MyUser.objects.isstaff()
                 task_func.delay(message='An auther wants to sign up',
                                 title='New User request', receiver=[user.user_email for user in user_object])
 
@@ -73,7 +73,7 @@ def signup(request):
                     request,
                     f"user with username:{user_name} registered please login",
                 )
-                user_object = MyUser.objects.filter(is_staff=True)
+                user_object = MyUser.objects.isstaff()
                 task_func.delay(message='An reader wants to sign up',
                                 title='New User request', receiver=[user.user_email for user in user_object])
 
@@ -99,7 +99,7 @@ def signup(request):
                     request,
                     f"user with username:{user_name} registered please login",
                 )
-                user_object = MyUser.objects.filter(is_staff=True)
+                user_object = MyUser.objects.isstaff()
                 task_func.delay(message='An admin wants to sign up',
                                 title='New User request', receiver=[user.user_email for user in user_object])
 
@@ -184,7 +184,7 @@ def update_profile(request, slug):
                 user_object.user_email = email
                 user_object.save()
                 messages.success(request, 'sent for admin approval')
-                user_object1 = MyUser.objects.filter(is_staff=True)
+                user_object1 = MyUser.objects.isstaff()
                 task_func.delay(message="A user wants to update there profile",
                                 title="profile updation Request", receiver=[user.user_email for user in user_object1])
                 return redirect('index')
@@ -209,7 +209,7 @@ def update_profile(request, slug):
             user_object.save()
             messages.success(
                 request, 'profile updated sent for admin approval')
-            user_object1 = MyUser.objects.filter(is_staff=True)
+            user_object1 = MyUser.objects.isstaff()
             task_func.delay(message="A user wants to update there profile",
                             title="Profile updation request", receiver=[user.user_email for user in user_object1])
             return redirect('index')
