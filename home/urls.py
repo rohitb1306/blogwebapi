@@ -18,4 +18,6 @@ urlpatterns = [
     path("about", views.about, name="about"),
     path("search", views.search, name="search"),
     path("search1/<search>", views.search1, name="search1"),
+    path("blog-csv", views.blog_csv, name="blog-csv"),
+    path("blog-pdf", views.blog_pdf, name="blog-pdf"),
 ]

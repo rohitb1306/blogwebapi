@@ -1,4 +1,14 @@
-from django.http import HttpResponse
+from cgi import test
+from fileinput import filename
+from urllib import response
+
+from django.http import HttpResponse, FileResponse
+import csv
+import io
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import letter
+
 from django.shortcuts import redirect, render
 from blog.models import Blog, Search
 from account.models import MyUser
@@ -14,6 +24,8 @@ def index(request):
         blog_is_approved=True).order_by('-blog_uploaded_on'), 5)
     page = request.GET.get('page')
     blog_paginate = p.get_page(page)
+
+    # user_object = MyUser.objects.all()
 
     return render(request, "home/index.html", {"blog_paginate": blog_paginate})
 
@@ -105,3 +117,66 @@ def search1(request, search):
         messages.warning(request, 'search result not found')
         return redirect('index')
 
+
+def blog_csv(request):
+    response = HttpResponse(content_type="text/csv")
+    response['Content-Disposition'] = 'attachment;Filename=blogs.csv'
+
+    writer = csv.writer(response)
+
+    blog_object = Blog.objects.filter(blog_is_approved=True)
+
+    writer.writerow(['Blog Title', 'Blog auther',
+                    'Blog image', 'Blog content', 'Uploaded on'])
+
+    for blog in blog_object:
+        writer.writerow([blog.blog_title, blog.blog_auther,
+                        blog.blog_image, (blog.blog_content), blog.blog_uploaded_on])
+
+    return response
+
+
+def blog_pdf(request):
+    # crete a bitestream buffer
+    buffer_object = io.BytesIO()
+    # create canvas
+    canvas_var = canvas.Canvas(
+        buffer_object, pagesize=letter, bottomup=0)
+    # create text object
+    text_object = canvas_var.beginText()
+    text_object.setTextOrigin(inch, inch)
+    text_object.setFont("Helvetica", 14)
+    blog_list = []
+
+    blog_object = Blog.objects.filter(blog_is_approved=True)
+    for blog in blog_object:
+        blog_list.append(str(f'Title : {blog.blog_title}'))
+        blog_list.append(str(f'Auther : {blog.blog_auther.user_name}'))
+        blog_list.append(
+            str(f'Date Uploaded : {blog.blog_uploaded_on.date()}'))
+        blog_list.append("  ")
+        blog_list.append(str(f'Image : {blog.blog_image.url}'))
+
+        blog_list.append("  ")
+        blog_list.append(str(f'Content : {blog.blog_content}'))
+        blog_list.append("  ")
+
+        blog_list.append(" ##################################################")
+        blog_list.append("  ")
+
+    c = 1
+    for blog in blog_list:
+        if c % 30 == 0:
+            canvas_var.drawText(text_object)
+            canvas_var.showPage()
+            text_object = canvas_var.beginText()
+            text_object.setTextOrigin(inch, inch)
+            text_object.setFont("Helvetica", 14)
+
+        text_object.textLines(blog)
+        c += 1
+    print(text_object)
+
+    canvas_var.save()
+    buffer_object.seek(0)
+    return FileResponse(buffer_object, as_attachment=True, filename="blog.pdf")

@@ -107,7 +107,7 @@ def signup(request):
 
             else:
                 messages.warning(request, "password mismatch error")
-                return redirect("signup")
+                return redirect("sign-up")
     return render(request, "account/register.html")
 
 
