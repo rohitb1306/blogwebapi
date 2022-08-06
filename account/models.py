@@ -11,14 +11,20 @@ from django.utils import timezone
 # Create your models here.
 class customAccountManager(BaseUserManager):
     def create_user(
-        self, user_email, user_name, first_name, password, last_name="", **otherfields
+        self,
+        user_email,
+        user_name,
+        first_name,
+        password,
+        last_name="",
+        **otherfields
     ):
         if not user_email:
             raise ValueError("provide email address")
 
         email = self.normalize_email(user_email)
         user = self.model(
-            user_email=user_email,
+            user_email=email,
             user_name=user_name,
             first_name=first_name,
             last_name=last_name,
@@ -36,7 +42,9 @@ class customAccountManager(BaseUserManager):
         other_fields.setdefault("is_active", True)
 
         if other_fields.get("is_staff") is not True:
-            raise ValueError("Superuser must be assigned to is_staff=True.")
+            raise ValueError(
+                "Superuser must be assigned to is_staff=True."
+            )
         if other_fields.get("is_superuser") is not True:
             raise ValueError(
                 "Superuser must be assigned to is_superuser=True."
@@ -46,9 +54,18 @@ class customAccountManager(BaseUserManager):
         )
 
     def isactive(self):
-        return self.get_queryset().filter(is_active=True).order_by('-sign_up_date')
+        return (
+            self.get_queryset()
+            .filter(is_active=True)
+            .order_by("-sign_up_date")
+        )
+
     def isnotactive(self):
-        return self.get_queryset().filter(is_active=False).order_by('-sign_up_date')
+        return (
+            self.get_queryset()
+            .filter(is_active=False)
+            .order_by("-sign_up_date")
+        )
 
     def isstaff(self):
         return self.get_queryset().filter(is_staff=True)
@@ -64,11 +81,13 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
-    new_slug = AutoSlugField(populate_from='user_name',
-                             null=True, default=None)
+    slug = AutoSlugField(
+        populate_from="user_name", null=True, default=None
+    )
 
     user_image = models.ImageField(
-        upload_to="media/account/images", default="")
+        upload_to="media/account/images", default=""
+    )
     sign_up_date = models.DateTimeField(default=timezone.now)
 
     objects = customAccountManager()

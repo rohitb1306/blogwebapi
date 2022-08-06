@@ -72,57 +72,31 @@
             padding: 0;
         }
     }
+
+    .vh-110 {
+        height: 110vh !important;
+    }
 </style>
 {% endblock %}
 {% block body %}
-<section class="vh-100 bg-image">
+<section class="vh-110 bg-image">
     <div class="mask d-flex align-items-center h-100 gradient-custom-3">
         <div class="container h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-12 col-md-9 col-lg-7 col-xl-6le=" border-radius: 15px;">
+                <div class="col-12 col-md-9 col-lg-7 " style=" border-radius: 15px;">
                     <div class=" p-5">
-                        <h2 class="text-uppercase text-center mb-5">Write Blog</h2>
-                        {% for i in blogs %}
-                        <form action="{% url 'updateblog1' i.new_slug %}" method="POST" enctype="multipart/form-data">
+                        <h2 class="text-uppercase text-center mb-5">Update Blog</h2>
+
+                        <form action="" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <div class="form-outline mb-4">
-                                <input type="text" placeholder="Auther" value="{{i.blog_auther}}" name="au"
-                                    class="form-control form-control-lg" />
-                            </div>
-
-                            <div class="form-outline mb-4">
-                                <input type="text" placeholder="Title" name="tt" value="{{i.blog_title}}"
-                                    class="form-control form-control-lg">
-                            </div>
-
-                            <div class="form-outline mb-4">
-                                <input type="text" placeholder="Keywords" name="key" value="{{i.blog_keywords}}"
-                                    class="form-control form-control-lg">
-                            </div>
-
-                            <div class="form-outline mb-4">
-                                <input type="text" placeholder="description" name="descript"
-                                    value="{{i.blog_description}}" class="form-control form-control-lg">
-                            </div>
-
-                            <div class="form-outline mb-4">
-                                <textarea style="height:150px;" placeholder="Content" name="co" id="co"
-                                    value="{{i.blog_content}}" class="form-control form-control-lg"></textarea>
-                            </div>
-
-
-                            <div class="form-outline mb-4">
-                                <input type="file" name="im" src='/media/{{i.blog_image}}'>
-                            </div>
-
-
+                            {{form.media}}
+                            {{form.as_p}}
 
                             <div class="d-flex justify-content-center">
                                 <button type="submit"
                                     class="btn btn-primary text-white btn-block btn-lg gradient-custom-4 w-100">update</button>
                             </div>
 
-                            {% endfor %}
                         </form>
 
                     </div>
@@ -139,4 +113,5 @@
 <script>
     CKEDITOR.replace('co');
 </script>
+
 {% endblock %}

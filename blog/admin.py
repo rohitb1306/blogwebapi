@@ -3,12 +3,18 @@ from .models import Blog, Comment, Search
 
 
 class BlogAdmin(admin.ModelAdmin):
-    search_fields = ("blog_title", "blog_auther")
     ordering = ("-blog_uploaded_on",)
     list_filter = ("blog_new_request",)
-    list_display = ("blog_title", "blog_auther",
-                    "blog_new_request", "blog_is_approved")
-    filter_horizontal = ()
+
+    def blog_content_(self, obj):
+        return obj.blog_content[:30]
+
+    list_display = (
+        "blog_title",
+        "blog_auther",
+        "blog_content_",
+        "blog_is_approved",
+    )
 
     fieldsets = (
         (
@@ -26,10 +32,19 @@ class BlogAdmin(admin.ModelAdmin):
         ),
         (
             "permissions",
-            {"fields": ("blog_is_approved", "blog_new_request",
-                        "blog_del_request")},
+            {
+                "fields": (
+                    (
+                        "blog_is_approved",
+                        "blog_new_request",
+                        "blog_del_request",
+                    ),
+                )
+            },
         ),
     )
+
+    list_per_page = 20
 
 
 # Register your models here.

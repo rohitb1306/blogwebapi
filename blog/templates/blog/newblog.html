@@ -72,10 +72,14 @@
             padding: 0;
         }
     }
+
+    .vh-110 {
+        height: 110vh !important;
+    }
 </style>
 {% endblock %}
 {% block body %}
-<section class="vh-100 bg-image">
+<section class="vh-110 bg-image">
     <div class="mask d-flex align-items-center h-100 gradient-custom-3">
         <div class="container h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -84,38 +88,10 @@
                         <div class="card-body p-5">
                             <h2 class="text-uppercase text-center mb-5">Write Blog</h2>
 
-                            <form action="{% url 'addblog' %}" method="POST" enctype="multipart/form-data">
+                            <form action="" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
-                                <div class="form-outline mb-4">
-                                    <input type="text" placeholder="auther" value="{{user.user_name}}" name="au"
-                                        class="form-control form-control-lg" required />
-                                </div>
-
-                                <div class="form-outline mb-4">
-                                    <input type="text" placeholder="Title" name="tt"
-                                        class="form-control form-control-lg" required />
-                                </div>
-
-                                <div class="form-outline mb-4">
-                                    <input type="text" placeholder="keywords" name="key"
-                                        class="form-control form-control-lg" required />
-                                </div>
-
-                                <div class="form-outline mb-4">
-                                    <input type="text" placeholder="Description" name="descript"
-                                        class="form-control form-control-lg" required>
-                                </div>
-
-                                <div class="form-outline mb-4">
-                                    <textarea style="height:150px;" placeholder="content" name="co" id="co"
-                                        required></textarea>
-                                </div>
-
-                                <div class="form-outline mb-4">
-                                    <input type="file" name="im" required>
-                                </div>
-
-
+                                {{form.media}}
+                                {{form.as_ul}}
 
                                 <div class="d-flex justify-content-center">
                                     <button type="submit"
@@ -133,64 +109,6 @@
     </div>
 </section>
 
-<div class="row g-0 gap-4 my-3 align-items-center justify-content-center">
-    {% for i in blog_paginate %}
-    <div class="col-3">
-        <a href="{% url 'open-blog' i.new_slug %}" class="text-decoration-none text-dark">
-            <div class="card" style="overflow: hidden;">
-                <div class="card-header" style="height: 100px;">
-                    <h2 class="text-capitalize">{{i.blog_title}}</h2>
-                </div>
-                <div class="card-body" style="height: 500px;">
-                    <h5>{{i.blog_uploaded_on}}</h5>
-                    <img src='/media/{{i.blog_image}}' style="height: 400px; width: 100%;" alt="...">
-                </div>
-                <div class="card-footer" style="height: 100px;">
-                    <h3>{{i.blog_auther}}</h3>
-                    <p>{{i.blog_content}}</p>
-                </div>
-            </div>
-        </a>
-        <div class="d-flex align-items-center justify-content-center gap-2 my-2">
-            <a href="{% url 'updateblog' i.new_slug %}">
-                <button class="btn btn-primary text-white text-capitalize">update</button></a>
-            <a href="{% url 'deleteblog' i.new_slug %}">
-                <button class="btn btn-danger text-white text-capitalize">delete</button></a>
-        </div>
-
-    </div>
-    {% endfor %}
-</div>
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-
-
-        {% if blog_paginate.has_previous %}
-
-        <li class="page-item "><a class="page-link" href="?page=1">&laquo First</a></li>
-        <li class="page-item"><a class="page-link"
-                href="?page={{blog_paginate.previous_page_number}}">{{blog_paginate.previous_page_number}}
-            </a></li>
-        {% else %}
-        <li class="page-item disabled"><a class="page-link" href="#">&laquo First</a></li>
-        </a></li>
-        {% endif %}
-        <li class="page-item"><a class="page-link" href="?page={{blog_paginate.number}}">{{blog_paginate.number}}
-            </a></li>
-        {% if blog_paginate.has_next %}
-        <li class="page-item"><a class="page-link"
-                href="?page={{blog_paginate.next_page_number}}">{{blog_paginate.next_page_number}}
-            </a></li>
-        <li class="page-item "><a class="page-link" href="?page={{blog_paginate.paginator.num_pages}}">Last &raquo</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled"><a class="page-link" href="#">Last
-                &raquo</a>
-        </li>
-        {% endif %}
-
-    </ul>
-</nav>
 <script src="//cdn.ckeditor.com/4.19.1/standard/ckeditor.js"></script>
 {% endblock %}
 {% block script %}

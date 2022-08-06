@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0025_rename_i_search_object_blog'),
+        ("blog", "0025_rename_i_search_object_blog"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='search',
-            name='search_content',
+            model_name="search",
+            name="search_content",
             field=models.CharField(max_length=30, null=True),
         ),
     ]

@@ -7,8 +7,8 @@ def task_func(self, message, title, receiver):
     send_mail(
         title,
         message,
-        'bhatttest852@gmail.com',
+        "bhatttest852@gmail.com",
         receiver,
         fail_silently=False,
     )
-    return 'task_Done'
+    return "task_Done"

@@ -6,22 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0019_alter_blog_blog_content'),
+        ("blog", "0019_alter_blog_blog_content"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='blog',
-            name='blog_rating',
+            model_name="blog",
+            name="blog_rating",
         ),
         migrations.AddField(
-            model_name='blog',
-            name='blog_discription',
+            model_name="blog",
+            name="blog_discription",
             field=models.CharField(max_length=150, null=True),
         ),
         migrations.AddField(
-            model_name='blog',
-            name='blog_keywords',
+            model_name="blog",
+            name="blog_keywords",
             field=models.CharField(max_length=150, null=True),
         ),
     ]

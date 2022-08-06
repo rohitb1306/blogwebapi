@@ -29,13 +29,15 @@ class Migration(migrations.Migration):
                 (
                     "comment_key",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="blog.comment"
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="blog.comment",
                     ),
                 ),
                 (
                     "user",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="account.myuser"
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="account.myuser",
                     ),
                 ),
             ],

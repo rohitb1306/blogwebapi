@@ -7,15 +7,29 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0023_alter_blog_blog_content'),
+        ("blog", "0023_alter_blog_blog_content"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='search',
+            name="search",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('i', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='blog.blog')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "i",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="blog.blog",
+                    ),
+                ),
             ],
         ),
     ]

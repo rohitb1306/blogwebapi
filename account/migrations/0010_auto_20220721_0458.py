@@ -6,38 +6,38 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('account', '0009_auto_20220720_0740'),
+        ("account", "0009_auto_20220720_0740"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='myuser',
-            old_name='f_name',
-            new_name='first_name',
+            model_name="myuser",
+            old_name="f_name",
+            new_name="first_name",
         ),
         migrations.RenameField(
-            model_name='myuser',
-            old_name='l_name',
-            new_name='last_name',
+            model_name="myuser",
+            old_name="l_name",
+            new_name="last_name",
         ),
         migrations.RenameField(
-            model_name='myuser',
-            old_name='start_date',
-            new_name='sign_up_date',
+            model_name="myuser",
+            old_name="start_date",
+            new_name="sign_up_date",
         ),
         migrations.RenameField(
-            model_name='myuser',
-            old_name='email',
-            new_name='user_email',
+            model_name="myuser",
+            old_name="email",
+            new_name="user_email",
         ),
         migrations.RenameField(
-            model_name='myuser',
-            old_name='image',
-            new_name='user_image',
+            model_name="myuser",
+            old_name="image",
+            new_name="user_image",
         ),
         migrations.RenameField(
-            model_name='myuser',
-            old_name='u_name',
-            new_name='user_name',
+            model_name="myuser",
+            old_name="u_name",
+            new_name="user_name",
         ),
     ]

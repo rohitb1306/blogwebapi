@@ -24,7 +24,7 @@
             <div style="text-align: left;">{{i.blog_content|safe}}</div>
         </div>
         {% if user.is_authenticated %}
-        <form action="{% url 'addcomment' i.new_slug %}" method="post">
+        <form action="{% url 'addcomment' i.slug %}" method="post">
             {% csrf_token %}
 
             <div class="form-outline mb-1">
@@ -49,7 +49,7 @@
         </div>
         {% endif %}
         <div class="border border-dark rounded my-2 p-2 ">
-            {% for j in comment_paginate %}
+            {% for j in page_obj %}
             <h1 class="badge bg-success" style="font-size: 1rem !important;">{{j.user}}</h1>
             <span class="d-flex mb-3">{{j.comment_added_on}}</span>
 
@@ -63,24 +63,24 @@
             <ul class="pagination justify-content-center">
 
 
-                {% if comment_paginate.has_previous %}
+                {% if page_obj.has_previous %}
 
                 <li class="page-item "><a class="page-link" href="?page=1">&laquo</a></li>
                 <li class="page-item"><a class="page-link"
-                        href="?page={{comment_paginate.previous_page_number}}">{{comment_paginate.previous_page_number}}
+                        href="?page={{page_obj.previous_page_number}}">{{page_obj.previous_page_number}}
                     </a></li>
                 {% else %}
                 <li class="page-item disabled"><a class="page-link" href="#">&laquo</a></li>
                 </a></li>
                 {% endif %}
                 <li class="page-item"><a class="page-link"
-                        href="?page={{comment_paginate.number}}">{{comment_paginate.number}}
+                        href="?page={{page_obj.number}}">{{page_obj.number}}
                     </a></li>
-                {% if comment_paginate.has_next %}
+                {% if page_obj.has_next %}
                 <li class="page-item"><a class="page-link"
-                        href="?page={{comment_paginate.next_page_number}}">{{comment_paginate.next_page_number}}
+                        href="?page={{page_obj.next_page_number}}">{{page_obj.next_page_number}}
                     </a></li>
-                <li class="page-item "><a class="page-link" href="?page={{comment_paginate.paginator.num_pages}}">
+                <li class="page-item "><a class="page-link" href="?page={{page_obj.paginator.num_pages}}">
                         &raquo</a>
                 </li>
                 {% else %}

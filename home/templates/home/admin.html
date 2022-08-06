@@ -79,7 +79,7 @@
                             <td>{{i.blog_auther}}</td>
 
                             <td>
-                                <a href="{% url 'blog-W-U-approval' i.new_slug %}"><button type="submit"
+                                <a href="{% url 'blog-W-U-approval' i.slug %}"><button type="submit"
                                         class="bg-primary w-100 text-white">click here to approve</button></a>
                             </td>
 
@@ -109,7 +109,7 @@
 
 
                             <td>
-                                <a href="{% url 'blog-D-approval' i.new_slug %}"><button type="submit"
+                                <a href="{% url 'blog-D-approval' i.slug %}"><button type="submit"
                                         class="bg-primary w-100 text-white">click here to approve deletion
                                         request</button></a>
                             </td>

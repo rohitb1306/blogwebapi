@@ -7,21 +7,33 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0013_reply'),
+        ("blog", "0013_reply"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='blog',
-            name='new_slug',
-            field=autoslug.fields.AutoSlugField(default=None, editable=False, null=True, populate_from='blog_title', unique=True),
+            model_name="blog",
+            name="new_slug",
+            field=autoslug.fields.AutoSlugField(
+                default=None,
+                editable=False,
+                null=True,
+                populate_from="blog_title",
+                unique=True,
+            ),
         ),
         migrations.AddField(
-            model_name='comment',
-            name='new_slug',
-            field=autoslug.fields.AutoSlugField(default=None, editable=False, null=True, populate_from='blog_key', unique=True),
+            model_name="comment",
+            name="new_slug",
+            field=autoslug.fields.AutoSlugField(
+                default=None,
+                editable=False,
+                null=True,
+                populate_from="blog_key",
+                unique=True,
+            ),
         ),
         migrations.DeleteModel(
-            name='Reply',
+            name="Reply",
         ),
     ]

@@ -113,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Kolkata"
 
 USE_I18N = True
 
@@ -138,19 +138,19 @@ AUTH_USER_MODEL = "account.MyUser"
 
 # mail Settings
 
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'bhatttest852@gmail.com'
-EMAIL_HOST_PASSWORD = 'rdbjdjjpubatyget'
+EMAIL_HOST_USER = "bhatttest852@gmail.com"
+EMAIL_HOST_PASSWORD = "rdbjdjjpubatyget"
 EMAIL_USE_TLS = True
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
-ACCEPT_CONTENT = ['application/json']
-RESULT_SERIALIZER = 'json'
-TASK_SERIALIZER = 'json'
-TIMEZONE = 'Asia/Kolkata'
+CELERY_BROKER_URL = "redis://127.0.0.1:6379"
+ACCEPT_CONTENT = ["application/json"]
+RESULT_SERIALIZER = "json"
+TASK_SERIALIZER = "json"
+TIMEZONE = "Asia/Kolkata"
 ACCEPT_CONTENT = ["json", "application/text"]
 RESULT_BACKEND = "django-db"
 

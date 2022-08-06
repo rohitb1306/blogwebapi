@@ -7,13 +7,19 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('account', '0010_auto_20220721_0458'),
+        ("account", "0010_auto_20220721_0458"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='myuser',
-            name='new_slug',
-            field=autoslug.fields.AutoSlugField(default=None, editable=False, null=True, populate_from='user_name', unique=True),
+            model_name="myuser",
+            name="new_slug",
+            field=autoslug.fields.AutoSlugField(
+                default=None,
+                editable=False,
+                null=True,
+                populate_from="user_name",
+                unique=True,
+            ),
         ),
     ]
