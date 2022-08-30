@@ -14,6 +14,8 @@ class BlogAdmin(admin.ModelAdmin):
         "blog_auther",
         "blog_content_",
         "blog_is_approved",
+        "blog_uploaded_on"
+        
     )
 
     fieldsets = (
@@ -27,6 +29,7 @@ class BlogAdmin(admin.ModelAdmin):
                     "blog_title",
                     "blog_description",
                     "blog_keywords",
+                    
                 )
             },
         ),

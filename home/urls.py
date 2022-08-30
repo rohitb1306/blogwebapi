@@ -3,6 +3,9 @@ from . import views
 
 urlpatterns = [
     path("", views.Index.as_view(), name="index"),
+    path("data/", views.ItemListView.as_view(),name="data"), 
+    path("hitdatalist/", views.hitItemList.as_view(),name="hitdatalist"), 
+    path("senddate/",views.getdata.as_view(),name="senddate"),
     path("admin_custom", views.Admin.as_view(), name="admin_custom"),
     # path("admin2", views.admin2, name="admin2"),
     path(

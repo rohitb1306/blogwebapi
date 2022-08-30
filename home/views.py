@@ -243,3 +243,28 @@ class Blog_pdf(View):
             return response
 
         return response
+
+
+from django_serverside_datatable.views import ServerSideDatatableView
+
+
+class ItemListView(ServerSideDatatableView):
+
+    queryset = Blog.objects.all()
+    columns = ['blog_title', 'blog_content', 'blog_auther']
+
+class hitItemList(TemplateView):
+    template_name="home/datalist.html"
+
+class getdata(View):
+    def get(self,request):
+        fromtime1 = datetime.strptime(request.GET['fromdate'], "%Y-%m-%d").date()
+        totime1 = datetime.strptime(request.GET['todate'], "%Y-%m-%d").date()
+        blog_obj=Blog.objects.all()
+        lst=[]
+        for i in blog_obj:
+            if i.blog_uploaded_on.date()<fromtime1 and i.blog_uploaded_on.date()>totime1:
+                lst.append(i)
+            print(i)
+        print(lst)
+        return HttpResponse(lst)

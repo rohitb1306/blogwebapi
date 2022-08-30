@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <h1>Items</h1>
+
+    <input type="date" name="fromdate" id="fromdate">
+    <input type="date" name="todate" id="todate">
+    <input type="submit" onclick="date11()" class="btn btn-primary">
+
+
+    <hr>
+    <table id="items-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Author</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script language="javascript">
+        const fromdate = document.getElementById('fromdate')
+        const todate = document.getElementById('todate')
+        const date11 = () => {
+            if (fromdate.value && todate.value) {
+                document.getElementById('items-table_wrapper').innerHTML = fromdate.value + todate.value
+
+                $.get('http://127.0.0.1:8000/senddate/', { fromdate: fromdate.value, todate: todate.value }, (e) => {
+                    console.log(e);
+                })
+
+                // $('#items-table').dataTable({
+                //     serverSide: true,
+                //     sAjaxSource: "http://127.0.0.1:8000/datatime/",
+                //     columns: [
+                //         { name: "blog_title", data: 0 },
+                //         { name: "blog_content", data: 1 },
+                //         { name: "blog_auther", data: 2 },
+                //     ],
+                // });
+            } else {
+                $(document).ready(function () {
+                    $('#items-table').dataTable({
+                        serverSide: true,
+                        searching: true,
+                        sAjaxSource: "http://127.0.0.1:8000/data/",
+                        columns: [
+                            { name: "blog_title", data: 0 },
+                            { name: "blog_content", data: 1 },
+                            { name: "blog_auther", data: 2 },
+                        ],
+                    });e
+                });
+            }
+        }
+
+        window.onload = date11()
+    </script>
+</body>
+
+</html>
