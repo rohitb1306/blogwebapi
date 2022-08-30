@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "ckeditor_uploader",
     "django_celery_results",
     "django_celery_beat",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -56,6 +57,11 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
 
 ROOT_URLCONF = "blogapi.urls"
 
@@ -77,6 +83,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "blogapi.wsgi.application"
 
+REST_FRAMEWORK={
+    'DEFAULT_AUTHENTICATION_CLASSES':['rest_framework_simplejwt.authentication.JWTAuthentication'],
+    'DEFAULT_PERMISSION_CLASSES':['rest_framework.permissions.IsAuthenticated']
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
